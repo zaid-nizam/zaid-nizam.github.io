@@ -17,45 +17,129 @@
       -webkit-font-smoothing: antialiased;
       letter-spacing: -0.01em;
     }
-    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-    .fade { animation: fade 0.9s ease both; }
+
+    /* ---- entrance choreography ---- */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .rise { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .s1 { animation-delay: 0.00s; }
+    .s2 { animation-delay: 0.06s; }
+    .s3 { animation-delay: 0.12s; }
+    .s4 { animation-delay: 0.18s; }
+    .s5 { animation-delay: 0.24s; }
+
+    /* avatar pop */
+    .avatar { transition: transform 0.45s cubic-bezier(0.2,0.8,0.2,1); }
+    .avatar:hover {
+      transform: scale(1.04);
+      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ---- tech row: real Simple Icons loaded as CSS masks so they recolor ---- */
+    .tech {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+    }
+    .tech .icon {
+      width: 28px;
+      height: 28px;
+      background-color: #c2c0b7;            /* grey at rest */
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-position: center; mask-position: center;
+      -webkit-mask-size: contain; mask-size: contain;
+      /* out: slow, soft settle */
+      transition: transform 0.45s cubic-bezier(0.2,0.8,0.2,1),
+                  background-color 0.3s ease;
+    }
+    .tech:hover .icon {
+      transform: scale(1.2);                /* iOS pop */
+      /* in: snappy spring with overshoot */
+      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
+                  background-color 0.2s ease;
+    }
+    .tech .label {
+      font-size: 11.5px;
+      color: #78766e;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2,0.8,0.2,1);
+    }
+    .tech:hover .label { opacity: 1; transform: translateY(0); }
+
+    /* slugs + brand colors */
+    .i-ts { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg); }
+    .i-go { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg); }
+    .i-rc { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg); }
+    .i-sv { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg); }
+    .i-c  { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg); }
+    .tech:hover .i-ts { background-color:#3178c6; }
+    .tech:hover .i-go { background-color:#00add8; }
+    .tech:hover .i-rc { background-color:#61dafb; }
+    .tech:hover .i-sv { background-color:#ff3e00; }
+    .tech:hover .i-c  { background-color:#a8b9cc; }
+
+    /* ---- links ---- */
     .link { color: #78766e; transition: color 0.2s ease; }
     .link:hover { color: #1c1c1a; }
+
     .graph { width: 100%; height: auto; display: block; }
     .graph-fallback { font-size: 13px; color: #9b998f; }
-    @media (prefers-reduced-motion: reduce) { .fade { animation: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rise { animation: none; }
+      .avatar, .avatar:hover, .tech .icon, .tech:hover .icon {
+        transform: none; transition: background-color 0.2s ease;
+      }
+    }
   </style>
 </head>
 <body class="h-full">
   <main class="min-h-full flex items-center justify-center px-8 py-16">
-    <div class="fade w-full max-w-lg">
+    <div class="w-full max-w-lg">
 
       <img src="https://avatars.githubusercontent.com/u/159690637?v=4"
-           alt="Zaid" class="w-12 h-12 rounded-full mb-12" />
+           alt="Zaid" class="rise s1 avatar w-12 h-12 rounded-full mb-11" />
 
-      <h1 class="text-2xl font-medium mb-6">Zaid</h1>
+      <div class="rise s2 flex items-center gap-2.5 mb-6">
+        <h1 class="text-2xl font-medium">Zaid</h1>
+        <span class="w-2 h-2 rounded-full" style="background:#22c55e;" title="Available"></span>
+      </div>
 
-      <p class="text-[17px] leading-[1.75] mb-5" style="color:#3a3a36;">
+      <p class="rise s2 text-[17px] leading-[1.75] mb-5" style="color:#3a3a36;">
         I'm a self-taught full-stack developer, and I'm drawn to the layers most
         people would rather not touch &mdash; wire protocols, real-time systems, the
         parts where you have to know exactly what's happening on the socket. The
         deeper and less abstracted the problem, the more I enjoy it.
       </p>
 
-      <p class="text-[17px] leading-[1.75] mb-12" style="color:#78766e;">
-        Day to day that's TypeScript and Go on the backend, React and Svelte on the
-        front, and the occasional descent into C when something needs reverse
-        engineering. I like building things end to end and owning them, rather than
-        just shipping a brief and moving on. Based in Sri Lanka.
+      <p class="rise s3 text-[17px] leading-[1.75] mb-9" style="color:#78766e;">
+        I build things end to end and like to own them, rather than ship a brief and
+        move on. Most of my work lives somewhere between the backend and the metal,
+        with a soft spot for reverse engineering whatever refuses to be understood.
+        Based in Sri Lanka.
       </p>
 
-      <figure class="mb-12">
+      <!-- real library icons; hover = pop + brand color + name -->
+      <div class="rise s4 flex items-center gap-9 mb-12 h-12">
+        <span class="tech"><span class="icon i-ts"></span><span class="label">TypeScript</span></span>
+        <span class="tech"><span class="icon i-go"></span><span class="label">Go</span></span>
+        <span class="tech"><span class="icon i-rc"></span><span class="label">React</span></span>
+        <span class="tech"><span class="icon i-sv"></span><span class="label">Svelte</span></span>
+        <span class="tech"><span class="icon i-c"></span><span class="label">C</span></span>
+      </div>
+
+      <figure class="rise s4 mb-12">
         <figcaption class="text-[13px] mb-3" style="color:#9b998f;">Recent contributions</figcaption>
         <img id="graph" class="graph" alt="GitHub contribution graph for zaid-nizam" />
         <noscript><p class="graph-fallback">Enable JavaScript to load the contribution graph.</p></noscript>
       </figure>
 
-      <nav class="flex items-center gap-8 text-[15px]">
+      <nav class="rise s5 flex items-center gap-8 text-[15px]">
         <a href="https://github.com/zaid-nizam" target="_blank" rel="noopener" class="link">GitHub</a>
         <a href="https://github.com/zaid-nizam/freaky-md" target="_blank" rel="noopener" class="link">freaky-md</a>
         <a href="https://github.com/zaid-nizam/dotfiles" target="_blank" rel="noopener" class="link">Dotfiles</a>
@@ -66,11 +150,9 @@
   </main>
 
   <script>
-    // Live GitHub contributions, re-fetched on every load (cache-busted).
-    // Source: ghchart.rshah.org — a third-party mirror of the GitHub graph.
     (function () {
       var img = document.getElementById("graph");
-      img.src = "https://ghchart.rshah.org/3a3a36/zaid-nizam?t=" + Date.now();
+      img.src = "https://ghchart.rshah.org/22c55e/zaid-nizam?t=" + Date.now();
       img.onerror = function () {
         var p = document.createElement("p");
         p.className = "graph-fallback";
