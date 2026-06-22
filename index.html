@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaid</title>
+  <meta name="description" content="Self-taught full-stack developer. Systems, protocols, and interfaces." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    html { font-family: 'Inter', system-ui, sans-serif; }
+    body {
+      background: #fafaf9;
+      color: #1c1c1a;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em;
+    }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    .fade { animation: fade 0.9s ease both; }
+    .link { color: #78766e; transition: color 0.2s ease; }
+    .link:hover { color: #1c1c1a; }
+    .graph { width: 100%; height: auto; display: block; }
+    .graph-fallback { font-size: 13px; color: #9b998f; }
+    @media (prefers-reduced-motion: reduce) { .fade { animation: none; } }
+  </style>
+</head>
+<body class="h-full">
+  <main class="min-h-full flex items-center justify-center px-8 py-16">
+    <div class="fade w-full max-w-lg">
+
+      <img src="https://avatars.githubusercontent.com/u/159690637?v=4"
+           alt="Zaid" class="w-12 h-12 rounded-full mb-12" />
+
+      <h1 class="text-2xl font-medium mb-6">Zaid</h1>
+
+      <p class="text-[17px] leading-[1.75] mb-5" style="color:#3a3a36;">
+        I'm a self-taught full-stack developer, and I'm drawn to the layers most
+        people would rather not touch &mdash; wire protocols, real-time systems, the
+        parts where you have to know exactly what's happening on the socket. The
+        deeper and less abstracted the problem, the more I enjoy it.
+      </p>
+
+      <p class="text-[17px] leading-[1.75] mb-12" style="color:#78766e;">
+        Day to day that's TypeScript and Go on the backend, React and Svelte on the
+        front, and the occasional descent into C when something needs reverse
+        engineering. I like building things end to end and owning them, rather than
+        just shipping a brief and moving on. Based in Sri Lanka.
+      </p>
+
+      <figure class="mb-12">
+        <figcaption class="text-[13px] mb-3" style="color:#9b998f;">Recent contributions</figcaption>
+        <img id="graph" class="graph" alt="GitHub contribution graph for zaid-nizam" />
+        <noscript><p class="graph-fallback">Enable JavaScript to load the contribution graph.</p></noscript>
+      </figure>
+
+      <nav class="flex items-center gap-8 text-[15px]">
+        <a href="https://github.com/zaid-nizam" target="_blank" rel="noopener" class="link">GitHub</a>
+        <a href="https://github.com/zaid-nizam/freaky-md" target="_blank" rel="noopener" class="link">freaky-md</a>
+        <a href="https://github.com/zaid-nizam/dotfiles" target="_blank" rel="noopener" class="link">Dotfiles</a>
+        <a href="mailto:hello@zaid.dev" class="link">Email</a>
+      </nav>
+
+    </div>
+  </main>
+
+  <script>
+    // Live GitHub contributions, re-fetched on every load (cache-busted).
+    // Source: ghchart.rshah.org — a third-party mirror of the GitHub graph.
+    (function () {
+      var img = document.getElementById("graph");
+      img.src = "https://ghchart.rshah.org/3a3a36/zaid-nizam?t=" + Date.now();
+      img.onerror = function () {
+        var p = document.createElement("p");
+        p.className = "graph-fallback";
+        p.textContent = "Graph unavailable right now — see github.com/zaid-nizam.";
+        img.replaceWith(p);
+      };
+    })();
+  </script>
+</body>
+</html>
