@@ -1,164 +1,270 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zaid</title>
-  <meta name="description" content="Developer working close to the metal — protocols, sockets, real-time systems." />
+  <title>Zaid — Full-stack developer</title>
+  <meta name="description" content="Zaid builds production software end to end — Go, TypeScript, real-time backends. 27 projects delivered, rated 5.0 across 24 reviews." />
+  <meta property="og:title" content="Zaid — Full-stack developer" />
+  <meta property="og:description" content="Ships end to end. Go, TypeScript, real-time backends, clean frontends." />
+  <meta property="og:type" content="website" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,450;14..32,500;14..32,600&family=Newsreader:ital,opsz@1,18..72&display=swap" rel="stylesheet" />
   <style>
-    html { font-family: 'Inter', system-ui, sans-serif; }
-    body {
-      background: #fafaf9;
-      color: #1c1c1a;
-      -webkit-font-smoothing: antialiased;
-      letter-spacing: -0.011em;
+    :root {
+      --bg:#ffffff; --ink:#101113; --body:#3d3f44; --muted:#73767d;
+      --faint:#a4a7ad; --hair:#ececee; --hair2:#e2e3e6; --accent:#101113;
+      --green:#1a9d4b; --star:#d99a1a;
     }
+    *{box-sizing:border-box}
+    html{font-family:'Inter',system-ui,sans-serif}
+    body{background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;letter-spacing:-0.011em;margin:0}
+    ::selection{background:#ecedf0}
+    .serif{font-family:'Newsreader',Georgia,serif;font-style:italic}
 
-    /* ---- staggered entrance: avatar → name → text → graph → links ---- */
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .rise { animation: rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .s1 { animation-delay: 0.00s; }
-    .s2 { animation-delay: 0.07s; }
-    .s3 { animation-delay: 0.14s; }
-    .s4 { animation-delay: 0.21s; }
-    .s5 { animation-delay: 0.28s; }
+    @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .rise{animation:rise .85s cubic-bezier(.16,1,.3,1) both}
+    .d0{animation-delay:0s}.d1{animation-delay:.06s}.d2{animation-delay:.12s}
+    .d3{animation-delay:.18s}.d4{animation-delay:.24s}.d5{animation-delay:.30s}.d6{animation-delay:.36s}
 
-    /* avatar shares the spring personality */
-    .avatar { transition: transform 0.45s cubic-bezier(0.2,0.8,0.2,1); }
-    .avatar:hover {
-      transform: scale(1.04);
-      transition: transform 0.19s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    /* hairline that draws itself */
+    @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .rule{height:1px;background:var(--hair2);transform-origin:left;animation:draw 1s cubic-bezier(.16,1,.3,1) both}
 
-    /* ---- inline language icons: baseline-aligned, matte grey at rest ---- */
-    .tk {
-      position: relative;
-      display: inline-block;
-      width: 1.05em;
-      height: 1.05em;
-      vertical-align: -0.16em;       /* sit on the text baseline */
-      margin: 0 0.06em;
-      background-color: #807e76;     /* matte grey, near text color */
-      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-      -webkit-mask-position: center; mask-position: center;
-      -webkit-mask-size: contain;    mask-size: contain;
-      cursor: default;
-      /* out: soft decelerating settle, no bounce */
-      transition: transform 0.45s cubic-bezier(0.2,0.8,0.2,1),
-                  background-color 0.35s ease;
-    }
-    .tk:hover {
-      transform: scale(1.18);        /* spring curve overshoots toward ~1.21 then settles */
-      /* in: snappy spring with overshoot */
-      transition: transform 0.19s cubic-bezier(0.34,1.56,0.64,1),
-                  background-color 0.2s ease;
-    }
-    /* tooltip name */
-    .tk::after {
-      content: attr(data-name);
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 9px);
-      transform: translateX(-50%) translateY(4px);
-      padding: 3px 8px;
-      font-size: 11.5px;
-      line-height: 1;
-      letter-spacing: 0;
-      white-space: nowrap;
-      color: #fafaf9;
-      background: #1c1c1a;
-      border-radius: 6px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.2,0.8,0.2,1);
-    }
-    .tk:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .avatar{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+    .avatar:hover{transform:scale(1.04);transition:transform .19s cubic-bezier(.34,1.56,.64,1)}
 
-    /* slugs (Simple Icons v11 via jsDelivr) + brand colors on hover */
-    .i-ts { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg); }
-    .i-go { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg); }
-    .i-rc { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg); }
-    .i-sv { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg); }
-    .i-c  { -webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg); mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg); }
-    .i-ts:hover { background-color:#3178c6; }
-    .i-go:hover { background-color:#00add8; }
-    .i-rc:hover { background-color:#61dafb; }
-    .i-sv:hover { background-color:#ff3e00; }
-    .i-c:hover  { background-color:#5b6f8c; }
+    /* inline language icons */
+    .tk{position:relative;display:inline-block;width:1.02em;height:1.02em;vertical-align:-.14em;margin:0 .04em;
+      background-color:var(--muted);
+      -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
+      -webkit-mask-size:contain;mask-size:contain;cursor:default;
+      transition:transform .45s cubic-bezier(.2,.8,.2,1),background-color .35s ease}
+    .tk:hover{transform:scale(1.2);transition:transform .19s cubic-bezier(.34,1.56,.64,1),background-color .2s ease}
+    .tk::after{content:attr(data-name);position:absolute;left:50%;bottom:calc(100% + 8px);
+      transform:translateX(-50%) translateY(4px);padding:3px 8px;font-size:11px;line-height:1;
+      letter-spacing:0;white-space:nowrap;color:#fff;background:var(--ink);border-radius:6px;
+      opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+    .tk:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+    .i-ts{-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/typescript.svg)}
+    .i-go{-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/go.svg)}
+    .i-rc{-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/react.svg)}
+    .i-sv{-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/svelte.svg)}
+    .i-c{-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/c.svg)}
+    .tk.i-ts:hover{background-color:#3178c6}.tk.i-go:hover{background-color:#00add8}
+    .tk.i-rc:hover{background-color:#149eca}.tk.i-sv:hover{background-color:#ff3e00}.tk.i-c:hover{background-color:#5b6f8c}
 
-    /* ---- links ---- */
-    .link { color: #78766e; transition: color 0.2s ease; }
-    .link:hover { color: #1c1c1a; }
+    /* project rows — index number + name + year, ledger style */
+    .proj{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:14px;
+      padding:15px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit;
+      transition:background .3s ease}
+    .proj:hover{background:linear-gradient(90deg,#fafafb,transparent)}
+    .proj-i{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums;width:1.4em}
+    .proj-main{min-width:0}
+    .proj-name{font-weight:500;font-size:15.5px;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease}
+    .proj:hover .proj-name{color:var(--accent)}
+    .proj:hover .arr{opacity:1;transform:translate(0,0)}
+    .arr{opacity:0;transform:translate(-3px,0);font-size:12px;transition:opacity .25s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
+    .proj-desc{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+    .proj-tag{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.01em}
 
-    .graph { width: 100%; height: auto; display: block; }
-    .graph-fallback { font-size: 13px; color: #9b998f; }
+    .link{color:var(--muted);text-decoration:none;transition:color .2s ease;position:relative}
+    .link:hover{color:var(--ink)}
+    .label{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:500}
 
-    @media (prefers-reduced-motion: reduce) {
-      .rise { animation: none; }
-      .avatar, .avatar:hover, .tk, .tk:hover {
-        transform: none; transition: background-color 0.2s ease;
-      }
+    /* review — quiet, editorial, no card chrome */
+    .rev{padding:13px 0;border-bottom:1px solid var(--hair)}
+    .rev-q{font-size:14.5px;line-height:1.6;color:var(--body)}
+    .rev-w{font-size:12px;color:var(--faint);margin-top:6px}
+    .rev-n{color:var(--muted);font-weight:500}
+    .stars{color:var(--star);font-size:11px;letter-spacing:1.5px}
+
+    /* hire-me popover */
+    .hire{position:relative;display:inline-block}
+    .hire-card{position:absolute;left:0;bottom:calc(100% + 12px);width:286px;background:#fff;
+      border:1px solid var(--hair2);border-radius:14px;padding:14px 15px;text-align:left;
+      box-shadow:0 14px 40px rgba(16,17,19,.14),0 3px 9px rgba(16,17,19,.06);
+      opacity:0;transform:translateY(8px) scale(.97);transform-origin:bottom left;
+      pointer-events:none;z-index:30;
+      transition:opacity .2s ease,transform .28s cubic-bezier(.34,1.4,.64,1)}
+    .hire:hover .hire-card,.hire:focus-within .hire-card{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+    .hire-card::after{content:"";position:absolute;left:22px;top:100%;border:7px solid transparent;
+      border-top-color:#fff;filter:drop-shadow(0 1px 0 var(--hair2))}
+    .offer{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 0;
+      border-top:1px solid var(--hair);text-decoration:none}
+    .offer:first-of-type{border-top:none}
+    .offer-t{font-size:12.5px;color:var(--body);line-height:1.35;transition:color .15s ease}
+    .offer:hover .offer-t{color:var(--accent)}
+    .offer-p{font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+    a:focus-visible,.tk:focus-visible,.hire-trigger:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+
+    @media (prefers-reduced-motion:reduce){
+      .rise,.rule{animation:none;transform:none}
+      .avatar,.avatar:hover,.tk,.tk:hover,.proj,.proj:hover,.hire-card{transform:none;
+        transition:color .2s ease,background-color .2s ease,opacity .2s ease}
     }
   </style>
 </head>
-<body class="h-full">
-  <main class="min-h-full flex items-center justify-center px-8 py-16">
-    <div class="w-full max-w-lg">
+<body>
+  <main class="mx-auto max-w-[34rem] px-7 py-16 md:py-24">
 
-      <img src="https://avatars.githubusercontent.com/u/159690637?v=4"
-           alt="Zaid" class="rise s1 avatar w-12 h-12 rounded-full mb-11" />
-
-      <div class="rise s2 flex items-center gap-2.5 mb-6">
-        <h1 class="text-2xl font-medium">Zaid</h1>
-        <span class="w-2 h-2 rounded-full" style="background:#22c55e;" title="Available"></span>
+    <!-- hero -->
+    <header>
+      <div class="rise d0 flex items-center justify-between mb-9">
+        <img src="https://avatars.githubusercontent.com/u/159690637?v=4" alt="Zaid"
+             class="avatar w-12 h-12 rounded-full" />
+        <span class="flex items-center gap-2 text-[12.5px]" style="color:var(--muted)">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:var(--green)"></span>
+          Available · Sri Lanka
+        </span>
       </div>
 
-      <p class="rise s2 text-[17px] leading-[1.8] mb-5" style="color:#2e2e2a;">
-        I spend most of my time building with
-        <span class="tk i-ts" data-name="TypeScript"></span>,
-        <span class="tk i-go" data-name="Go"></span>,
-        <span class="tk i-rc" data-name="React"></span> and
-        <span class="tk i-sv" data-name="Svelte"></span> &mdash; and I drop down to
-        <span class="tk i-c" data-name="C"></span> when something needs taking apart.
+      <h1 class="rise d1 text-[2.4rem] leading-[1.04] font-semibold tracking-[-0.045em] mb-5">
+        Zaid
+      </h1>
+
+      <p class="rise d1 text-[17.5px] leading-[1.65] mb-4" style="color:var(--body)">
+        I build software <span class="serif">end to end</span> — and I'm happiest in
+        the layers most people route around: wire protocols, sockets, the raw bytes
+        underneath. I work in
+        <span class="tk i-ts" data-name="TypeScript" tabindex="0"></span>
+        <span class="tk i-go" data-name="Go" tabindex="0"></span>
+        <span class="tk i-rc" data-name="React" tabindex="0"></span>
+        <span class="tk i-sv" data-name="Svelte" tabindex="0"></span>, and drop to
+        <span class="tk i-c" data-name="C" tabindex="0"></span> when I need to take
+        something apart to understand it.
       </p>
 
-      <p class="rise s3 text-[17px] leading-[1.8] mb-12" style="color:#6f6d66;">
-        I like the layers most people avoid: wire protocols, sockets, the raw metal
-        underneath. The deeper it goes, the more I want to understand it. I build
-        things end to end and keep them mine. Sri Lanka.
+      <p class="rise d2 text-[15px] leading-[1.6]" style="color:var(--muted)">
+        A Chrome extension 1,000+ people use daily. A live map UK truckers check on
+        the road. An AI platform teachers grade lessons with. I'd rather own three
+        things that ship than touch thirty that don't.
       </p>
+    </header>
 
-      <figure class="rise s4 mb-12">
-        <figcaption class="text-[13px] mb-3" style="color:#9b998f;">Recent contributions</figcaption>
-        <img id="graph" class="graph" alt="GitHub contribution graph for zaid-nizam" />
-        <noscript><p class="graph-fallback">Enable JavaScript to load the contribution graph.</p></noscript>
-      </figure>
+    <div class="rule d3 mt-10"></div>
 
-      <nav class="rise s5 flex items-center gap-8 text-[15px]">
+    <!-- work: ledger of real, shipped things -->
+    <section class="rise d3 mt-7">
+      <div class="flex items-baseline justify-between mb-3">
+        <p class="label">Things I've shipped</p>
+        <p class="label" style="letter-spacing:.04em">2023 →</p>
+      </div>
+
+      <a class="proj" href="https://chromewebstore.google.com/detail/kortex-all-in-one-ai-brow/ilcklloajkohdbmiofiopjkcacfijdkj" target="_blank" rel="noopener">
+        <span class="proj-i">01</span>
+        <span class="proj-main">
+          <span class="proj-name">Kortex <span class="arr">↗</span></span>
+          <span class="proj-desc">Browser AI + tab manager. On-device, no account. 1,000+ users, 4.7★.</span>
+        </span>
+        <span class="proj-tag">Chrome&nbsp;Web&nbsp;Store</span>
+      </a>
+
+      <a class="proj" href="https://ukcheckpoints.info/" target="_blank" rel="noopener">
+        <span class="proj-i">02</span>
+        <span class="proj-main">
+          <span class="proj-name">UKCheckpoints <span class="arr">↗</span></span>
+          <span class="proj-desc">Live checkpoint map for UK drivers. One report, everyone's screen, instantly.</span>
+        </span>
+        <span class="proj-tag">Next · NestJS · WS</span>
+      </a>
+
+      <a class="proj" href="https://learnalyze.net/" target="_blank" rel="noopener">
+        <span class="proj-i">03</span>
+        <span class="proj-main">
+          <span class="proj-name">Learnalyze <span class="arr">↗</span></span>
+          <span class="proj-desc">AI that watches a lesson and gives teachers feedback across six dimensions.</span>
+        </span>
+        <span class="proj-tag">Bun · Go · Supabase</span>
+      </a>
+
+      <a class="proj" href="https://github.com/zaid-nizam/freaky-md" target="_blank" rel="noopener">
+        <span class="proj-i">04</span>
+        <span class="proj-main">
+          <span class="proj-name">freaky-md <span class="arr">↗</span></span>
+          <span class="proj-desc">WhatsApp bot in Go on a hand-rolled Noise transport. Readable on purpose.</span>
+        </span>
+        <span class="proj-tag">Go · open&nbsp;source</span>
+      </a>
+    </section>
+
+    <!-- proof: one honest line + real words from clients -->
+    <section class="rise d4 mt-11">
+      <div class="flex items-baseline justify-between mb-1">
+        <p class="label">In their words</p>
+        <a href="https://www.peopleperhour.com/freelancer/technology-programming/razan-mohamed-senior-full-stack-engineer-go-zzjaaxwq"
+           target="_blank" rel="noopener" class="link" style="font-size:12px">
+          <span class="stars">★★★★★</span> 5.0 · 24 reviews ↗
+        </a>
+      </div>
+
+      <div class="rev">
+        <p class="rev-q">"He did the mobile updates perfectly and we're already booking him for the web app."</p>
+        <p class="rev-w"><span class="rev-n">Kashif B.</span> — Karachi</p>
+      </div>
+      <div class="rev">
+        <p class="rev-q">"Amazing work — did more than he had to. Great worker."</p>
+        <p class="rev-w"><span class="rev-n">Tiesto W.</span> — Rome</p>
+      </div>
+      <div class="rev" style="border-bottom:none">
+        <p class="rev-q">"Quick to answer, flexible, patient with every request."</p>
+        <p class="rev-w"><span class="rev-n">Miron I.</span> — Germany</p>
+      </div>
+    </section>
+
+    <!-- contributions -->
+    <section class="rise d5 mt-11">
+      <p class="label mb-3">The last year, committed</p>
+      <img id="graph" alt="GitHub contribution graph for zaid-nizam" style="width:100%;height:auto;display:block" />
+      <noscript><p style="font-size:13px;color:var(--faint)">Enable JavaScript to load the graph.</p></noscript>
+    </section>
+
+    <div class="rule d6 mt-11"></div>
+
+    <!-- footer -->
+    <footer class="rise d6 mt-6">
+      <nav class="flex flex-wrap items-center gap-x-6 gap-y-2.5 text-[14.5px]">
         <a href="https://github.com/zaid-nizam" target="_blank" rel="noopener" class="link">GitHub</a>
-        <a href="https://github.com/zaid-nizam/freaky-md" target="_blank" rel="noopener" class="link">freaky-md</a>
-        <a href="https://github.com/zaid-nizam/dotfiles" target="_blank" rel="noopener" class="link">Dotfiles</a>
-        <a href="mailto:hello@zaid.dev" class="link">Email</a>
+        <a href="https://www.linkedin.com/in/zaid-nizam/" target="_blank" rel="noopener" class="link">LinkedIn</a>
+        <span class="hire">
+          <a href="https://www.peopleperhour.com/freelancer/technology-programming/razan-mohamed-senior-full-stack-engineer-go-zzjaaxwq"
+             target="_blank" rel="noopener" class="link hire-trigger" tabindex="0">Hire me</a>
+          <span class="hire-card" role="dialog" aria-label="Hire options">
+            <div class="flex items-center justify-between mb-2.5">
+              <span style="font-size:13px;font-weight:600;color:var(--ink)">Start in an hour</span>
+              <span class="stars">★★★★★ <span style="color:var(--muted);font-weight:500">5.0</span></span>
+            </div>
+            <a class="offer" href="https://www.peopleperhour.com/freelancer/technology-programming/razan-mohamed-senior-full-stack-engineer-go-zzjaaxwq" target="_blank" rel="noopener">
+              <span class="offer-t">Fix a Next.js, Supabase or React bug in 1 hour</span>
+              <span class="offer-p">$30</span>
+            </a>
+            <a class="offer" href="https://www.peopleperhour.com/freelancer/technology-programming/razan-mohamed-senior-full-stack-engineer-go-zzjaaxwq" target="_blank" rel="noopener">
+              <span class="offer-t">Audit your WordPress theme, fix 3 real problems</span>
+              <span class="offer-p">$25</span>
+            </a>
+          </span>
+        </span>
+        <a href="mailto:zaid.dev.work@gmail.com" class="link">Email</a>
       </nav>
+      <p class="mt-5 text-[12px]" style="color:var(--faint)">
+        Hand-written HTML. No framework, no builder. © 2026 Zaid.
+      </p>
+    </footer>
 
-    </div>
   </main>
 
   <script>
-    (function () {
-      var img = document.getElementById("graph");
-      img.src = "https://ghchart.rshah.org/22c55e/zaid-nizam?t=" + Date.now();
-      img.onerror = function () {
-        var p = document.createElement("p");
-        p.className = "graph-fallback";
-        p.textContent = "Graph unavailable right now — see github.com/zaid-nizam.";
+    (function(){
+      var img=document.getElementById("graph");
+      img.src="https://ghchart.rshah.org/1a9d4b/zaid-nizam?t="+Date.now();
+      img.onerror=function(){
+        var p=document.createElement("p");
+        p.style.cssText="font-size:13px;color:#a4a7ad";
+        p.textContent="Graph unavailable — see github.com/zaid-nizam.";
         img.replaceWith(p);
       };
     })();
